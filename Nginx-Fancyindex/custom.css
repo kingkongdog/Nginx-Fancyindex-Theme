@@ -1,3 +1,7 @@
 h1, .directory-controls {
-        display: none !important;
+  display: none !important;
+}
+
+.breadcrumb-nav {
+  margin: 0 !important;
 }
