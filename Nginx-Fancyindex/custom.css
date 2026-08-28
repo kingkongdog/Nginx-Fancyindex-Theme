@@ -5,3 +5,7 @@ h1, .directory-controls {
 .breadcrumb-nav {
   margin: 0 !important;
 }
+
+.copy-page-url-btn {
+  display: none !important;
+}
