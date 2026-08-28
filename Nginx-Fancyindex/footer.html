@@ -69,6 +69,68 @@
         renderMarkdown('raw_include_README_md', 'README.md');
     }());
     </script>
+
+
+
+    <!-- 简约视频弹窗容器 -->
+    <div id="videoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); z-index:9999; justify-content:center; align-items:center;">
+    <div style="position:relative; width:80%; max-width:900px; background:#000; border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.5); overflow:hidden;">
+        <!-- 关闭按钮 -->
+        <span id="closeVideoModal" style="position:absolute; top:8px; right:16px; color:#fff; font-size:28px; cursor:pointer; z-index:10; line-height:1; font-family:sans-serif;">&times;</span>
+        <!-- 原生 HTML5 视频播放器 -->
+        <video id="videoPlayer" controls style="width:100%; height:auto; display:block; outline:none;"></video>
+    </div>
+    </div>
+
+    <script>
+    (function() {
+    // 匹配常见视频后缀
+    const videoRegex = /\.(mp4|webm|ogg|mov|m4v|mkv)$/i;
+    
+    const modal = document.getElementById('videoModal');
+    const player = document.getElementById('videoPlayer');
+    const closeBtn = document.getElementById('closeVideoModal');
+
+    // 关闭弹窗并释放资源
+    function closeModal() {
+        player.pause();
+        player.src = '';
+        modal.style.display = 'none';
+    }
+
+    // 事件委托：拦截页面中所有的 <a> 标签点击
+    document.addEventListener('click', function(e) {
+        const target = e.target.closest('a');
+        if (!target) return;
+
+        const href = target.getAttribute('href');
+        if (href && videoRegex.test(href)) {
+            e.preventDefault(); // 阻止浏览器直接跳转/下载
+            
+            player.src = href;
+            modal.style.display = 'flex';
+            player.play().catch(function() {}); // 播放视频
+        }
+    });
+
+    // 点击关闭按钮
+    closeBtn.addEventListener('click', closeModal);
+
+    // 点击遮罩空白区域关闭
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) closeModal();
+    });
+
+    // 按下 ESC 键关闭
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+            closeModal();
+        }
+    });
+    })();
+    </script>
+
+
 </body>
 </html>
 <!--
