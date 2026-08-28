@@ -1,7 +1,9 @@
 $(() => {
   $('.breadcrumb li a').first().remove();
   
-  if(location.pathname.split('/').filter(Boolean).length === 1) {
+  const segments = location.pathname.split('/').filter(Boolean)
+  if(segments.length === 1) {
     $('#list tbody tr').first().remove();
+    document.title = segments[0]
   }
 })
